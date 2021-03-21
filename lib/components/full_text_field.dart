@@ -8,6 +8,7 @@ class FullTextField extends StatelessWidget {
   final Color iconColor;
   final IconData iconEnd;
   final bool obscureText;
+  final TextEditingController controller;
   const FullTextField({
     Key key,
     this.hintText,
@@ -15,13 +16,15 @@ class FullTextField extends StatelessWidget {
     this.icon,
     this.iconColor,
     this.iconEnd,
-    this.obscureText = false
+    this.obscureText = false,
+    this.controller
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
         child: TextField(
+          controller: controller,
           obscureText: obscureText,
           onChanged: onChanged,
           style: TextStyle(letterSpacing: 2.0,),

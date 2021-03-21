@@ -6,6 +6,7 @@ class RoundedButton extends StatelessWidget {
 
   final String text;
   final Function fnc;
+
   final Color color, textColor;
 
   const RoundedButton({
@@ -27,9 +28,7 @@ class RoundedButton extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 10.0,),
             color: color,
             child:Text(text, style: TextStyle(color: textColor, fontSize: 20.0),),
-            onPressed: (){
-
-            },
+            onPressed: fnc,
           )
       ),
     );
