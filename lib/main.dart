@@ -1,3 +1,6 @@
+
+import 'package:chatapp/screens/authentication/register/components/register.dart';
+import 'package:chatapp/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'screens/authentication/login/components/login.dart';
 import 'style.dart';
@@ -16,7 +19,12 @@ class MyApp extends StatelessWidget {
         fontFamily: FontDefault,
 
       ),
-      home: Login()
+      initialRoute: '/login',
+      routes: {
+        '/login' : (context) => Login(),
+        '/home' : (context) => Home(),
+        '/register' : (context) => Register()
+      },
     );
   }
 }

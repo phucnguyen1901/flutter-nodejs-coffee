@@ -26,7 +26,7 @@ class _BodyState extends State<Body> {
       try{
           Map body = {"username":username,"password":password};
           // final res = await http.get('https://blogphuc.herokuapp.com/api/get');
-          final res = await http.post('http://192.168.1.4/api/register',
+          final res = await http.post('http://192.168.1.5/api/register',
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
@@ -88,13 +88,9 @@ class _BodyState extends State<Body> {
                     titleTextColor: Colors.green,
                     pathImage: "assets/login/image_dialog_success.png",
                     fnc: (){
-                      Navigator.push(
+                      Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) {
-                                return Login();
-                              }
-                          )
+                          '/login'
                       );
                     },
                   )
@@ -107,6 +103,7 @@ class _BodyState extends State<Body> {
                     titleText: "Unsuccessfully",
                     titleTextColor: Colors.red,
                     pathImage: "assets/login/image_dialog.png",
+
                     fnc: (){
                       Navigator.pop(context);
                     },
@@ -116,13 +113,9 @@ class _BodyState extends State<Body> {
               // signUp(_usernameController.text,_passwordController.text);
             },),
             AlreadyHaveAccount(login:true,fnc: (){
-              Navigator.push(
+              Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) {
-                        return Login();
-                      }
-                  )
+                  '/login'
               );
             })
           ],

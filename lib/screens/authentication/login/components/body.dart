@@ -8,19 +8,18 @@ import '../../register/components/register.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:chatapp/components/dialog.dart';
-import 'package:chatapp/screens/main/body.dart';
+import 'package:chatapp/screens/home/home.dart';
 
 
 class Body extends StatelessWidget {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  Future<Map> signUp(String username, String password) async{
-    print(username);
-    print(password);
+  Future<Map> signIn(String username, String password) async{
+
     try{
       Map body = {"username":username,"password":password};
       // final res = await http.get('https://blogphuc.herokuapp.com/api/get');
-      final res = await http.post('http://192.168.1.4/api/register',
+      final res = await http.post('http://192.168.1.5/api/login',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -29,9 +28,15 @@ class Body extends StatelessWidget {
       print(res.body);
       if(res.statusCode == 200){
         Map data = jsonDecode(res.body);
+        if(data["message"] == "Authenticate unsuccessfully"){
+          print("Sai password");
+          return null;
+        }
+        print(data);
         return data;
+
       }else{
-        return {"message":"error"};
+        return null;
       }
     }catch(e){
       print('error');
@@ -51,6 +56,7 @@ class Body extends StatelessWidget {
         children: <Widget>[
           Container(
             width: size.width * 0.8,
+            height: size.height *0.2,
             child:Image.asset("assets/login/bg_login_1.png")
           ),
           Container(
@@ -66,38 +72,24 @@ class Body extends StatelessWidget {
             controller: _usernameController,
           ),
           FullTextField(obscureText: true,hintText: 'Password',icon: Icons.lock, iconColor: PrimaryColor,iconEnd: Icons.visibility,
-            controller: _usernameController,
+            controller: _passwordController,
 
           ),
           RoundedButton(text:'LOG IN',color: PrimaryColor,textColor: Colors.white,fnc: ()async{
-            Map checkLogin = await signUp(_usernameController.text,_passwordController.text);
-          checkLogin["message"] == "Save an user successfully" ?
+            Map checkLogin = await signIn(_usernameController.text,_passwordController.text);
+            print(checkLogin);
+          checkLogin != null ?
+          Navigator.pushNamed(
+              context,
+              '/home'
+          )
+          :
           showDialog(
               context: context,
               child: AuthenticationDialog(
-                textAction: "Sign Up Now",
-                actionTextColor: Colors.green,
-                titleText: "Successfully",
-                titleTextColor: Colors.green,
-                pathImage: "assets/login/image_dialog_success.png",
-                fnc: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) {
-                            return Body();
-                          }
-                      )
-                  );
-                },
-              )
-          ) :
-          showDialog(
-              context: context,
-              child: AuthenticationDialog(
-                textAction: "Re-Register",
+                textAction: "Re-Login",
                 actionTextColor: Colors.red,
-                titleText: "Unsuccessfully",
+                titleText: "Wrong Authentication",
                 titleTextColor: Colors.red,
                 pathImage: "assets/login/image_dialog.png",
                 fnc: (){
@@ -108,13 +100,9 @@ class Body extends StatelessWidget {
           );
           },),
           AlreadyHaveAccount(fnc: (){
-            Navigator.push(
+            Navigator.pushNamed(
                 context,
-                MaterialPageRoute(
-                    builder: (context) {
-                      return Register();
-                    }
-                )
+                '/register'
             );
           })
         ],
