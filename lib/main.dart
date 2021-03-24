@@ -1,5 +1,6 @@
 
 import 'package:chatapp/screens/authentication/register/components/register.dart';
+import 'package:chatapp/screens/detailProduct/detailProduct.dart';
 import 'package:chatapp/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'screens/authentication/login/components/login.dart';
@@ -19,11 +20,12 @@ class MyApp extends StatelessWidget {
         fontFamily: FontDefault,
 
       ),
-      initialRoute: '/login',
+      initialRoute: '/detail',
       routes: {
         '/login' : (context) => Login(),
         '/home' : (context) => Home(),
-        '/register' : (context) => Register()
+        '/register' : (context) => Register(),
+        '/detail' : (context) => DetailProDuct()
       },
     );
   }
