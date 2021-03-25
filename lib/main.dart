@@ -1,5 +1,6 @@
 
 import 'package:chatapp/screens/authentication/register/components/register.dart';
+import 'package:chatapp/screens/cart/cart_screen.dart';
 import 'package:chatapp/screens/detailProduct/detailProduct.dart';
 import 'package:chatapp/screens/home/home.dart';
 import 'package:flutter/material.dart';
@@ -16,16 +17,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title:'Authentication',
       theme: ThemeData(
-        primaryColor: PrimaryColor,
+        primaryColor: lightColor,
         fontFamily: FontDefault,
-
       ),
-      initialRoute: '/detail',
+      initialRoute: '/cart',
       routes: {
         '/login' : (context) => Login(),
         '/home' : (context) => Home(),
         '/register' : (context) => Register(),
-        '/detail' : (context) => DetailProDuct()
+        '/detail' : (context) => DetailProDuct(),
+        '/cart' : (context) => Cart()
       },
     );
   }

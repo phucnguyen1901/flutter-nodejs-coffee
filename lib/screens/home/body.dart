@@ -10,6 +10,20 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+
+  List<ItemProduct> listProduct (size){
+    List<ItemProduct> list = [
+      ItemProduct(pathImage:"assets/home/home_smoothie.png",size: size, nameItem: "Coffee Milk", description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered",
+        fnc:(){
+          Navigator.pushNamed(context, '/detail');
+        },),
+      ItemProduct(pathImage:"assets/home/home_tea.png",size: size, nameItem: "Coffee Coffee", description: "Umbalasiba",),
+      ItemProduct(pathImage:"assets/login/icon_user.png",size: size, nameItem: "Coffee tonay", description: "Umbalasiba",),
+    ];
+    return list;
+
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -54,13 +68,8 @@ class _BodyState extends State<Body> {
             child:ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
-            ItemProduct(pathImage:"assets/home/home_smoothie.png",size: size, nameItem: "Coffee Milk", description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered",
-            fnc:(){
-              Navigator.pushNamed(context, '/detail');
-            },),
-            ItemProduct(pathImage:"assets/home/home_tea.png",size: size, nameItem: "Coffee Coffee", description: "Umbalasiba",),
-            ItemProduct(pathImage:"assets/login/icon_user.png",size: size, nameItem: "Coffee tonay", description: "Umbalasiba",),
-            ],
+
+            ]..addAll(listProduct(size)),
             ),
             ),
             Row(
@@ -75,7 +84,7 @@ class _BodyState extends State<Body> {
           ),
         ],
       ),
-
+      
     );
   }
 }
