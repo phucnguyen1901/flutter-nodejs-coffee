@@ -29,7 +29,7 @@ class ElementMenu extends StatelessWidget {
           ),
         ),
         Container(
-          child: Text(text),
+          child: Text(text,style: TextStyle(fontFamily: "Exo", fontWeight: FontWeight.bold),),
         ),
       ],
     );

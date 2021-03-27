@@ -8,15 +8,15 @@ class Bottom extends StatefulWidget {
 }
 
 class _BottomState extends State<Bottom> {
-
   @override
   Widget build(BuildContext context) {
+    final Map data = ModalRoute.of(context).settings.arguments;
     Size size = MediaQuery.of(context).size;
     return RaisedButton(
       padding: EdgeInsets.all(0.0),
       color: Colors.white,
       onPressed: (){
-
+          print("day la data $data");
       },
       child: Container(
         height: size.height*0.08,

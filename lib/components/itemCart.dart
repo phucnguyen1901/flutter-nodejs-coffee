@@ -12,13 +12,11 @@ class ItemCart extends StatelessWidget {
     this.price,
     this.qty,
     @required this.pathImage,
-      this.size,
   }) : super(key: key);
-
-  final Size size;
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Row(
       children: <Widget>[
         SizedBox(height:size.height*0.18,width: size.width*0.05,),
@@ -29,7 +27,7 @@ class ItemCart extends StatelessWidget {
               borderRadius: BorderRadius.circular(20.0),
               color: lightGreyColor,
               image: DecorationImage(
-                  image: AssetImage(pathImage)
+                  image: AssetImage("assets/home/$pathImage")
               )
           ),
         ),
@@ -39,13 +37,13 @@ class ItemCart extends StatelessWidget {
           children: <Widget>[
             Container(
               width: size.width*0.5,
-                child: Text(title, style: TextStyle(fontSize: 20.0,fontFamily: "Exo"))
+                child: Text(title, style: TextStyle(fontSize: 20.0,fontFamily: "Exo", fontWeight: FontWeight.bold))
             ),
             RichText(
               text: TextSpan(
                   text: price, style: TextStyle(fontSize: 20.0,color:Colors.green),
                   children: <TextSpan>[
-                    TextSpan(text: qty,style: TextStyle(fontSize: 20.0,color:Colors.black,fontFamily: "Exo"))
+                    TextSpan(text: " x $qty",style: TextStyle(fontSize: 20.0,color:Colors.black,fontFamily: "Exo", fontWeight: FontWeight.bold))
                     // TextSpan(text: 'bold', style: TextStyle(fontWeight: FontWeight.bold)),
                     // TextSpan(text: ' world!'),
                   ]

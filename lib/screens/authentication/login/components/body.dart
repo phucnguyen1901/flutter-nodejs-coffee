@@ -1,3 +1,7 @@
+import 'package:chatapp/models/MenuModel.dart';
+import 'package:chatapp/models/UserModel.dart';
+import 'package:chatapp/repository/MenuRes.dart';
+import 'package:chatapp/repository/UserRes.dart';
 import 'package:chatapp/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,35 +18,7 @@ import 'package:chatapp/screens/home/home.dart';
 class Body extends StatelessWidget {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  Future<Map> signIn(String username, String password) async{
 
-    try{
-      Map body = {"username":username,"password":password};
-      // final res = await http.get('https://blogphuc.herokuapp.com/api/get');
-      final res = await http.post('http://192.168.1.5/api/login',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(body),
-      );
-      print(res.body);
-      if(res.statusCode == 200){
-        Map data = jsonDecode(res.body);
-        if(data["message"] == "Authenticate unsuccessfully"){
-          print("Sai password");
-          return null;
-        }
-        print(data);
-        return data;
-
-      }else{
-        return null;
-      }
-    }catch(e){
-      print('error');
-      print(e);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,13 +52,14 @@ class Body extends StatelessWidget {
 
           ),
           RoundedButton(text:'LOG IN',color: PrimaryColor,textColor: Colors.white,fnc: ()async{
-            Map checkLogin = await signIn(_usernameController.text,_passwordController.text);
-            print(checkLogin);
-          checkLogin != null ?
-          Navigator.pushNamed(
-              context,
-              '/home'
-          )
+            UserModel checkLogin = await UserRes.loginUser(_usernameController.text,_passwordController.text);
+            // List menu =  await MenuRes.getMenu();
+            // print("Day la list model : $menu" );
+            checkLogin != null ?
+            Navigator.pushNamed(
+                context,
+                '/home'
+            )
           :
           showDialog(
               context: context,

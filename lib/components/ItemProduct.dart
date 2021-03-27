@@ -3,26 +3,32 @@ import 'package:chatapp/style.dart';
 
 class ItemProduct extends StatelessWidget {
 
-  final String nameItem;
+
+  final String name;
   final String description;
-  final String pathImage;
+  final String img;
   final Function fnc;
+  final String price;
+
   const ItemProduct({
     Key key,
-    this.nameItem,
+    this.name,
     this.description,
-    this.pathImage,
+    this.img,
     this.fnc,
-    @required this.size,
+    this.price,
   }) : super(key: key);
 
-  final Size size;
+
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double SizeName = name.length >= 18 ? size.width*0.05: size.width*0.06;
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 15.0),
-      width: size.width*0.6,
+      width: size.width*0.65,
       height: size.height*0.4,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25.0),
@@ -31,37 +37,36 @@ class ItemProduct extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(top: 30.0),
+            margin: EdgeInsets.only(top: size.height *0.06),
             // width: size.width*0.5,
-            height: size.height*0.6,
+            height: size.height*0.47,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
-                color: Colors.greenAccent
+                color: Theme.of(context).primaryColor
             ),
             child:Column(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(5.0,50.0,5.0,0.0),
-                  child: Center(child: Text(nameItem, style:TextStyle(fontSize: size.width*0.06))),
-                ),
+                  padding: const EdgeInsets.fromLTRB(0.0,50.0,5.0,0.0),
+                  child: Text(name, style:TextStyle(fontSize:SizeName, color:Colors.white,fontFamily: "Exo", fontWeight: FontWeight.bold),)),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(15.0,15.0,15.0,0.0),
-                  child: Text(description),
+                  child: Text("It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",style:TextStyle(fontSize: size.width*0.04,color:Colors.white,fontFamily: "Exo", fontWeight: FontWeight.bold)),
                 ),
               ],
             ),
 
           ),
           Positioned(
-              // top: -40,
-              height: size.height * 0.1,
+              left: size.width * 0.1 -23,
+              height: size.height * 0.12,
               width: size.width*0.6,
               child:Center(
                 child: Container(
                   decoration: BoxDecoration(
                     // color: Colors.blue,
                       image: DecorationImage(
-                        image: AssetImage(pathImage,
+                        image: AssetImage("assets/home/$img",
                         ),
                         // fit: BoxFit.contain
                       )
@@ -72,7 +77,7 @@ class ItemProduct extends StatelessWidget {
           Positioned(
             bottom: 10,
             left: 20,
-            child:Text("\$3", style: TextStyle(color:Colors.green,fontSize: 35.0),),
+            child:Text("\$$price", style: TextStyle(color:Colors.green,fontSize: 35.0,fontFamily: "Exo", fontWeight: FontWeight.bold),),
           ),
           Positioned(
             bottom: 10,

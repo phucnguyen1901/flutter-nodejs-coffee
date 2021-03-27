@@ -1,7 +1,10 @@
 import 'package:chatapp/components/ElementMenu.dart';
 import 'package:chatapp/components/ItemProduct.dart';
+import 'package:chatapp/repository/MenuRes.dart';
+import 'package:chatapp/repository/CartRes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 
 
 class Body extends StatefulWidget {
@@ -10,23 +13,12 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-
-  List<ItemProduct> listProduct (size){
-    List<ItemProduct> list = [
-      ItemProduct(pathImage:"assets/home/home_smoothie.png",size: size, nameItem: "Coffee Milk", description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered",
-        fnc:(){
-          Navigator.pushNamed(context, '/detail');
-        },),
-      ItemProduct(pathImage:"assets/home/home_tea.png",size: size, nameItem: "Coffee Coffee", description: "Umbalasiba",),
-      ItemProduct(pathImage:"assets/login/icon_user.png",size: size, nameItem: "Coffee tonay", description: "Umbalasiba",),
-    ];
-    return list;
-
-  }
+  List itemMenu;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    List M = itemMenu;
     return Container(
       height: size.height,
       width: size.width,
@@ -38,7 +30,7 @@ class _BodyState extends State<Body> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text("Hi Phuc Pro !",style:TextStyle(fontSize: 20.0)),
+                child: Text("Hi Phuc Pro !",style:TextStyle(fontSize: 20.0,fontFamily: "Exo", fontWeight: FontWeight.bold)),
               ),
                 Padding(
                   padding: const EdgeInsets.only(right: 20.0),
@@ -59,18 +51,26 @@ class _BodyState extends State<Body> {
           // SizedBox(height: 20.0,),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child:Text("This Week ",style:TextStyle(fontSize: 20.0)),
+            child:Text("This Week ",style:TextStyle(fontSize: 20.0,fontFamily: "Exo", fontWeight: FontWeight.bold)),
           ),
           Container(
             margin: EdgeInsets.only(top: 20.0),
             // color: Colors.blue,
-            height: size.height*0.5,
-            child:ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
+            height: size.height*0.47,
+            child:FutureBuilder<List>(
+              future:  MenuRes.getMenu(),
+              builder: (context,snapshot){
+                if( snapshot.connectionState == ConnectionState.waiting){
+                  return  Center(child: Text('Please wait its loading...'));
+                }else{
+                  if (snapshot.hasError)
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  else
+                    return ListMenuHome(snapshot.data,size);
+                }
+              },
+            )
 
-            ]..addAll(listProduct(size)),
-            ),
             ),
             Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -86,6 +86,41 @@ class _BodyState extends State<Body> {
       ),
       
     );
+  }
+
+  ListView ListMenuHome(List listProduct,Size size) {
+    return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: listProduct.length,
+            itemBuilder: (context,index){
+              return ItemProduct(
+                  name: listProduct[index]["name"].toString(),
+                  description: listProduct[index]["_id"].toString(),
+                  img: listProduct[index]["img"].toString(),
+                  price: listProduct[index]["price"].toString(),
+                  fnc: (){
+
+                    Navigator.pushNamed(context, '/detail',
+                        arguments:
+                        {
+                        "_id": listProduct[index]["_id"].toString(),
+                        "name":listProduct[index]["name"].toString(),
+                        "img":listProduct[index]["img"].toString(),
+                        "price": listProduct[index]["price"],
+                        }
+                    );
+                    // CartRes.postCart(
+                    //   {
+                    //   "_id": listProduct[index]["_id"].toString(),
+                    //   "name":listProduct[index]["name"].toString(),
+                    //   "img":listProduct[index]["img"].toString(),
+                    //   "price": listProduct[index]["price"],
+                    //   }
+                    // );
+                  },
+              );
+            },
+          );
   }
 }
 

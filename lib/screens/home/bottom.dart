@@ -31,6 +31,27 @@ class _BottomState extends State<Bottom> {
         setState(() {
           _currentIndex = index;
         });
+        switch(index) {
+          case 0: {
+
+          }
+          break;
+
+          case 1: {
+            //statements;
+          }
+          break;
+          case 2: {
+            Navigator.pushNamed(context, '/cart');
+          }
+          break;
+
+          default: {
+            //statements;
+          }
+          break;
+        }
+
       },
     );
   }

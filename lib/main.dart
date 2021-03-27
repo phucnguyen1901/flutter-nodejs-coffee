@@ -17,10 +17,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title:'Authentication',
       theme: ThemeData(
-        primaryColor: lightColor,
+        primaryColor: midPinkColor,
         fontFamily: FontDefault,
       ),
-      initialRoute: '/cart',
+      initialRoute: '/home',
       routes: {
         '/login' : (context) => Login(),
         '/home' : (context) => Home(),
