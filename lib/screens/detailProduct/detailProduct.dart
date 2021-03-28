@@ -137,7 +137,7 @@ class _DetailProDuctState extends State<DetailProDuct> {
             "_id": data["_id"].toString(),
             "name":data["name"].toString(),
             "img":data["img"].toString(),
-            "price": data["price"] *qty,
+            "price": data["price"],
             "qty": qty
             }
           ).then((value) => Navigator.pushNamed(context, '/cart'));

@@ -1,9 +1,9 @@
 import 'package:chatapp/components/ElementMenu.dart';
 import 'package:chatapp/components/ItemProduct.dart';
 import 'package:chatapp/repository/MenuRes.dart';
-import 'package:chatapp/repository/CartRes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -14,11 +14,23 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   List itemMenu;
+  String user;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SharedPreferences.getInstance().then((value) => {
+      setState((){
+        user = value.getString("user");
+      })
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    List M = itemMenu;
+
     return Container(
       height: size.height,
       width: size.width,
@@ -28,21 +40,27 @@ class _BodyState extends State<Body> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text("Hi Phuc Pro !",style:TextStyle(fontSize: 20.0,fontFamily: "Exo", fontWeight: FontWeight.bold)),
+              Expanded(
+                flex: 4,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text("Hi $user !",style:TextStyle(fontSize: 20.0,fontFamily: "Exo", fontWeight: FontWeight.bold)),
+                ),
               ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20.0),
-                  child: Container(
-                    height: size.height*0.07,
-                    width: size.width*0.2,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                        image: DecorationImage(
-                          image: AssetImage("assets/login/icon_user.png"),
-                          fit: BoxFit.cover
-                        )
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20.0),
+                    child: Container(
+                      height: size.height*0.07,
+                      width: size.width*0.1,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                          image: DecorationImage(
+                            image: AssetImage("assets/login/icon_user.png"),
+                            fit: BoxFit.cover
+                          )
+                      ),
                     ),
                   ),
                 ),
@@ -66,7 +84,7 @@ class _BodyState extends State<Body> {
                   if (snapshot.hasError)
                     return Center(child: Text('Error: ${snapshot.error}'));
                   else
-                    return ListMenuHome(snapshot.data,size);
+                    return ListMenuHome(snapshot.data);
                 }
               },
             )
@@ -88,7 +106,7 @@ class _BodyState extends State<Body> {
     );
   }
 
-  ListView ListMenuHome(List listProduct,Size size) {
+  ListView ListMenuHome(List listProduct) {
     return ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: listProduct.length,

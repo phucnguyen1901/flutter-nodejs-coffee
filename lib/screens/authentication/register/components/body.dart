@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:chatapp/repository/UserRes.dart';
 import 'package:flutter/material.dart';
 import 'package:chatapp/components/rounded_button.dart';
 import 'package:chatapp/components/full_text_field.dart';
@@ -20,30 +21,8 @@ class _BodyState extends State<Body> {
   // final Map infoRegister = new Map();
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  Future<Map> signUp(String username, String password) async{
-      print(username);
-      print(password);
-      try{
-          Map body = {"username":username,"password":password};
-          // final res = await http.get('https://blogphuc.herokuapp.com/api/get');
-          final res = await http.post('http://192.168.1.5/api/register',
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-            body: jsonEncode(body),
-          );
-          print(res.body);
-          if(res.statusCode == 200){
-            Map data = jsonDecode(res.body);
-            return data;
-          }else{
-            return {"message":"error"};
-          }
-      }catch(e){
-        print('error');
-          print(e);
-      }
-  }
+  TextEditingController _nameController = TextEditingController();
+  bool _passwordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -69,16 +48,26 @@ class _BodyState extends State<Body> {
                   borderRadius: BorderRadius.circular(20.0)
               ),
             ),
-            FullTextField(hintText: 'Username',icon: Icons.person, iconColor: PrimaryColor,
-              controller: _usernameController,
+            FullTextField(hintText: 'FullName',icon: Icons.accessibility, iconColor: PrimaryColor,
+              controller: _nameController,maxLine: 1,
             ),
-            FullTextField(obscureText: true,hintText: 'Password',icon: Icons.lock, iconColor: PrimaryColor,iconEnd: Icons.visibility,
-              controller: _passwordController,
+            FullTextField(hintText: 'Username',icon: Icons.person, iconColor: PrimaryColor,
+              controller: _usernameController,maxLine: 1,
+            ),
+            FullTextField(obscureText: !_passwordVisible,hintText: 'Password',icon: Icons.lock, iconColor: PrimaryColor,iconEnd: Icons.visibility,
+              controller: _passwordController,maxLine: 1,iconButton: IconButton(
+                icon: _passwordVisible ? Icon(Icons.visibility,color: PrimaryColor,) : Icon(Icons.visibility_off,color: PrimaryColor),
+                onPressed: (){
+                  setState((){
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
+              ),
 
             ),
             RoundedButton(text:'SIGN UP',color: PrimaryColor,textColor: Colors.white,fnc: () async{
-              Map checkLogin = await signUp(_usernameController.text,_passwordController.text);
-              checkLogin["message"] == "Save an user successfully" ?
+              Map checkLogin = await UserRes.registerUser(_usernameController.text,_passwordController.text,_nameController.text);
+              checkLogin != null ?
               showDialog(
                   context: context,
                   child: AuthenticationDialog(

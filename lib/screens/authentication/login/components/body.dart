@@ -15,10 +15,17 @@ import 'package:chatapp/components/dialog.dart';
 import 'package:chatapp/screens/home/home.dart';
 
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
   TextEditingController _usernameController = TextEditingController();
+
   TextEditingController _passwordController = TextEditingController();
 
+  bool _passwordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +52,17 @@ class Body extends StatelessWidget {
             ),
           ),
           FullTextField(hintText: 'Username',icon: Icons.person, iconColor: PrimaryColor,
-            controller: _usernameController,
+            controller: _usernameController, maxLine: 1,
           ),
-          FullTextField(obscureText: true,hintText: 'Password',icon: Icons.lock, iconColor: PrimaryColor,iconEnd: Icons.visibility,
-            controller: _passwordController,
-
+          FullTextField(obscureText: !_passwordVisible,hintText: 'Password',icon: Icons.lock, iconColor: PrimaryColor,iconEnd: Icons.visibility,
+            controller: _passwordController,maxLine: 1, iconButton: IconButton(
+              icon: _passwordVisible ? Icon(Icons.visibility,color: PrimaryColor,) : Icon(Icons.visibility_off,color: PrimaryColor),
+              onPressed: (){
+                setState((){
+                  _passwordVisible = !_passwordVisible;
+                });
+              },
+            ),
           ),
           RoundedButton(text:'LOG IN',color: PrimaryColor,textColor: Colors.white,fnc: ()async{
             UserModel checkLogin = await UserRes.loginUser(_usernameController.text,_passwordController.text);
@@ -66,7 +79,7 @@ class Body extends StatelessWidget {
               child: AuthenticationDialog(
                 textAction: "Re-Login",
                 actionTextColor: Colors.red,
-                titleText: "Wrong Authentication",
+                titleText: "Login Unsuccessful",
                 titleTextColor: Colors.red,
                 pathImage: "assets/login/image_dialog.png",
                 fnc: (){

@@ -19,8 +19,8 @@ class _BottomState extends State<Bottom> {
             label: "Home"
         ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.supervised_user_circle),
-            label: "User"
+            icon: Icon(Icons.assignment),
+            label: "Orders"
         ),
         BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
@@ -38,7 +38,7 @@ class _BottomState extends State<Bottom> {
           break;
 
           case 1: {
-            //statements;
+            Navigator.pushNamed(context, '/history');
           }
           break;
           case 2: {

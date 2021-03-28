@@ -37,19 +37,18 @@ class ItemCart extends StatelessWidget {
           children: <Widget>[
             Container(
               width: size.width*0.5,
-                child: Text(title, style: TextStyle(fontSize: 20.0,fontFamily: "Exo", fontWeight: FontWeight.bold))
-            ),
-            RichText(
-              text: TextSpan(
-                  text: price, style: TextStyle(fontSize: 20.0,color:Colors.green),
-                  children: <TextSpan>[
-                    TextSpan(text: " x $qty",style: TextStyle(fontSize: 20.0,color:Colors.black,fontFamily: "Exo", fontWeight: FontWeight.bold))
-                    // TextSpan(text: 'bold', style: TextStyle(fontWeight: FontWeight.bold)),
-                    // TextSpan(text: ' world!'),
-                  ]
-              ),
+                child:RichText(
+                  text: TextSpan(
+                      text: "$qty x ", style: TextStyle(color:Colors.black,fontSize: 20.0,fontFamily: "Exo", fontWeight: FontWeight.bold),
+                      children: <TextSpan>[
+                        TextSpan(text: title,style: TextStyle(fontSize: 20.0,color:Colors.black,fontFamily: "Exo", fontWeight: FontWeight.bold))
+                      ]
+                  ),
 
-            )
+                )
+                // child: Text(title, style: TextStyle(fontSize: 20.0,fontFamily: "Exo", fontWeight: FontWeight.bold))
+            ),
+            Text("\$${(double.parse(price)*double.parse(qty)).toStringAsFixed(2)}", style: TextStyle(fontSize: 15.0,color:Colors.green))
           ],
         )
       ],

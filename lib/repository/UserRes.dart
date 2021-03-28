@@ -3,6 +3,8 @@
 import 'package:chatapp/models/UserModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class UserRes{
 
@@ -21,13 +23,40 @@ class UserRes{
       print(res.body);
       if(res.statusCode == 200){
         Map data = jsonDecode(res.body);
-        if(data["message"] == "Sign in not success"){
-          print("Sai password");
+        if(data == null){
           return null;
         }
-        Map result = data["user"];
-        print(data["user"]);
+        Map<String,dynamic> result = data["user"];
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString("user", data["user"]["name"]);
+        prefs.setString("id", data["user"]["_id"]);
         return UserModel.fromJson(result);
+      }else{
+        return null;
+      }
+    }catch(e){
+      print('error');
+      print(e);
+    }
+  }
+
+  static Future<Map>registerUser(String username, String password, String name)async{
+    try{
+      Map body = {"username":username,"password":password ,"name":name};
+      var res = await http.post('http://192.168.1.5/api/register',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(body),
+      );
+      print(res.body);
+      updateCookie(res);
+      if(res.statusCode == 200){
+        if(res.body == null){
+          return null;
+        }
+        Map data = jsonDecode(res.body);
+        return data;
       }else{
         return null;
       }

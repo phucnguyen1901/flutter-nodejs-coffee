@@ -26,6 +26,24 @@ class CartRes{
     }
   }
 
+  static Future<Map>removeCart(String idItem)async{
+    try{
+      final res = await http.delete("http://192.168.1.5/api/removeCart/$idItem",headers: headers,
+      );
+
+      updateCookie(res);
+
+      if(res.statusCode == 200){
+        Map data = jsonDecode(res.body);
+        return data;
+
+      }
+    }catch(e){
+      print('error');
+      print(e);
+    }
+  }
+
   static Future<void>postCart(Map itemCart)async{
     try{
       final res = await http.post('http://192.168.1.5/api/updateCart',headers: headers,
@@ -36,7 +54,6 @@ class CartRes{
 
       if(res.statusCode == 200){
         // Map data = jsonDecode(res.body);
-        // print(data);
         // return data;
       }
     }catch(e){

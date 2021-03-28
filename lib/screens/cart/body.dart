@@ -13,54 +13,6 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // CartRes.getCart();
-  }
-
-  // List<ItemCart> listItemProduct = [
-  //   ItemCart(
-  //     pathImage: "assets/home/home_coffee.png",
-  //     title: "Coffee Milk 31231",
-  //     price: "\$2,99",
-  //     qty: " x 2",
-  //   ),
-  //   ItemCart(
-  //     pathImage: "assets/home/home_smoothie.png",
-  //     title:
-  //         "Smoothie strawberry sad sadsa sadsasd asdsa asda  dsafsa fsadfasdfsadsd",
-  //     price: "\$3,99",
-  //     qty: " x 1",
-  //   ),
-  //   ItemCart(
-  //     pathImage: "assets/home/home_tea.png",
-  //     title: "Tea",
-  //     price: "\$4,99",
-  //     qty: " x 3",
-  //   ),
-  //   ItemCart(
-  //     pathImage: "assets/home/home_coffee.png",
-  //     title: "Coffee Milk 31231",
-  //     price: "\$2,99",
-  //     qty: " x 2",
-  //   ),
-  //   ItemCart(
-  //     pathImage: "assets/home/home_smoothie.png",
-  //     title:
-  //         "Smoothie strawberry sad sadsa sadsasd asdsa asda  dsafsa fsadfasdfsadsd",
-  //     price: "\$3,99",
-  //     qty: " x 1",
-  //   ),
-  //   ItemCart(
-  //     pathImage: "assets/home/home_tea.png",
-  //     title: "Tea",
-  //     price: "\$4,99",
-  //     qty: " x 3",
-  //   )
-  // ];
-
-  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
         .of(context)
@@ -75,7 +27,7 @@ class _BodyState extends State<Body> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: Text('Loading...'));
             } else {
-              if (snapshot.hasError)
+              if (snapshot.data == null)
                 return Center(child: Text('Empty Cart...'));
               else
                 return ListItemCart(snapshot.data);
@@ -87,15 +39,20 @@ class _BodyState extends State<Body> {
 
   ListView ListItemCart(Map listItemCart) {
     List listValue = [];
+    List keyToDismissible = [];
     print("day la list cart : ${listItemCart["items"]}");
 
     listItemCart["items"].forEach((k,v) => listValue.add(v));
-    print(listValue);
+    listItemCart["items"].forEach((k,v) => keyToDismissible.add(k));
     return ListView.builder(
         itemCount: listValue.length,
         itemBuilder: (context, index) {
           return Dismissible(
               key: Key(listValue[index]["item"]["_id"]),
+              onDismissed: (direction){
+                CartRes.removeCart(keyToDismissible[index]);
+                // print("Day la cart sau khi xoa $cart");
+              },
               background: Container(
                 // height: size.height,
                 // width: size.width,

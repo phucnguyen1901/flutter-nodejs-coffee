@@ -8,6 +8,8 @@ class FullTextField extends StatelessWidget {
   final Color iconColor;
   final IconData iconEnd;
   final bool obscureText;
+  final int maxLine;
+  final IconButton iconButton;
   final TextEditingController controller;
   const FullTextField({
     Key key,
@@ -17,13 +19,17 @@ class FullTextField extends StatelessWidget {
     this.iconColor,
     this.iconEnd,
     this.obscureText = false,
-    this.controller
+    this.controller,
+    this.maxLine,
+    this.iconButton
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
         child: TextField(
+          keyboardType: TextInputType.multiline,
+          maxLines: maxLine,
           controller: controller,
           obscureText: obscureText,
           onChanged: onChanged,
@@ -33,7 +39,7 @@ class FullTextField extends StatelessWidget {
               icon: Icon(icon,color: iconColor),
               hintText: hintText,
               border: InputBorder.none,
-              suffixIcon: Icon(iconEnd, color: iconColor,)
+              suffixIcon: iconButton
           ),
         )
     );
@@ -56,7 +62,7 @@ class TextFieldContainer extends StatelessWidget {
       margin: EdgeInsets.fromLTRB(0.0,0.0,0.0,10.0),
       padding: EdgeInsets.symmetric(vertical: 2.0,horizontal: 15.0),
       decoration: BoxDecoration(
-          color: lightColor,
+          color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(30.0)
       ),
       child: child,
