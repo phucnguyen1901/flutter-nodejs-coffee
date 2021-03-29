@@ -8,11 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:chatapp/components/rounded_button.dart';
 import 'package:chatapp/components/full_text_field.dart';
 import 'package:chatapp/components/alreadyHaveAccount.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../register/components/register.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:chatapp/components/dialog.dart';
 import 'package:chatapp/screens/home/home.dart';
+import 'package:flutter/services.dart';
 
 
 class Body extends StatefulWidget {
@@ -21,16 +23,51 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+
   TextEditingController _usernameController = TextEditingController();
 
   TextEditingController _passwordController = TextEditingController();
 
+  bool _loading = false;
   bool _passwordVisible = false;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
-    return Container(
+    return _loading ? Container(
+        height: size.height,
+        width: size.width,
+        color: Colors.deepPurple,
+        child:Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SpinKitRing(
+            color: Theme.of(context).primaryColor,
+            size: 120.0,
+            ),
+            SizedBox(height: 15.0,),
+            Text("Đợi chút xíu , server free nên load lần đầu chậm", style:TextStyle(color: Theme.of(context).primaryColor,)),
+            Text("Còn không zô được thì lỗi bà nó rồi", style:TextStyle(color: Theme.of(context).primaryColor,)),
+
+            SizedBox(height: 15.0,),
+            Text("Wait a minute", style:TextStyle(color: Theme.of(context).primaryColor,))
+          ],
+
+      )
+    )
+        :Container(
       color: Colors.deepPurple,
       height: size.height,
       width: size.width,
@@ -39,8 +76,8 @@ class _BodyState extends State<Body> {
         children: <Widget>[
           Container(
             width: size.width * 0.8,
-            height: size.height *0.2,
-            child:Image.asset("assets/login/bg_login_1.png")
+            height: size.height *0.3,
+            child:Image.asset("assets/login/bg_login.png")
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 20.0),
@@ -65,10 +102,19 @@ class _BodyState extends State<Body> {
             ),
           ),
           RoundedButton(text:'LOG IN',color: PrimaryColor,textColor: Colors.white,fnc: ()async{
-            UserModel checkLogin = await UserRes.loginUser(_usernameController.text,_passwordController.text);
-            // List menu =  await MenuRes.getMenu();
-            // print("Day la list model : $menu" );
-            checkLogin != null ?
+
+            // UserModel checkLogin = await UserRes.loginUser(_usernameController.text,_passwordController.text);
+
+            setState(() {
+              _loading = !_loading;
+            });
+          UserModel checkLogin = await UserRes.loginUser(_usernameController.text,_passwordController.text);
+
+          checkLogin == null ? setState((){
+            _loading = !_loading;
+          }): null;
+
+          checkLogin != null ?
             Navigator.pushNamed(
                 context,
                 '/home'

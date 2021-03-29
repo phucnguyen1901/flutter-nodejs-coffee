@@ -13,7 +13,7 @@ class UserRes{
   static Future<UserModel>loginUser(String username, String password)async{
     try{
       Map body = {"username":username,"password":password};
-      http.Response res = await http.post('http://192.168.1.5/api/login',
+      http.Response res = await http.post('https://ordercoffeevn.herokuapp.com/api/login',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -43,7 +43,7 @@ class UserRes{
   static Future<Map>registerUser(String username, String password, String name)async{
     try{
       Map body = {"username":username,"password":password ,"name":name};
-      var res = await http.post('http://192.168.1.5/api/register',
+      var res = await http.post('https://ordercoffeevn.herokuapp.com/api/register',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

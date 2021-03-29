@@ -3,6 +3,7 @@ import 'package:chatapp/components/ItemProduct.dart';
 import 'package:chatapp/repository/MenuRes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -15,6 +16,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   List itemMenu;
   String user;
+  bool _checkLogin = false;
 
   @override
   void initState() {
@@ -31,7 +33,24 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Container(
+    return _checkLogin ? Container(
+        height: size.height,
+        width: size.width,
+        color: Colors.deepPurple,
+        child:Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SpinKitRing(
+              color: Theme.of(context).primaryColor,
+              size: 120.0,
+            ),
+
+            SizedBox(height: 15.0,),
+            Text("Log out ....", style:TextStyle(color: Theme.of(context).primaryColor,))
+          ],
+
+        )
+    ):Container(
       height: size.height,
       width: size.width,
       child:
@@ -41,29 +60,40 @@ class _BodyState extends State<Body> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Expanded(
-                flex: 4,
+                flex: 3,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Text("Hi $user !",style:TextStyle(fontSize: 20.0,fontFamily: "Exo", fontWeight: FontWeight.bold)),
+                  child: Text("Hi $user!",style: user.length < 30 ?
+                  TextStyle(fontSize: 20.0,fontFamily: "Exo", fontWeight: FontWeight.bold)
+                    :
+                  TextStyle(fontSize: 14.0,fontFamily: "Exo", fontWeight: FontWeight.bold)
+                  )
                 ),
               ),
                 Expanded(
                   flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 20.0),
-                    child: Container(
-                      height: size.height*0.07,
-                      width: size.width*0.1,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50.0),
-                          image: DecorationImage(
-                            image: AssetImage("assets/login/icon_user.png"),
-                            fit: BoxFit.cover
-                          )
-                      ),
-                    ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(right:10.0),
+                            child:Container(
+                              height: size.height*0.05,
+                              width: size.width*0.3,
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+                                  borderRadius: BorderRadius.circular(40.0)
+                              ),
+                            child:FlatButton(
+                              onPressed: (){
+                                setState(() {
+                                  _checkLogin = ! _checkLogin;
+                                });
+                                Navigator.pushNamed(context, "/login");
+                              },
+                              child: Center(child: Text("Log out",style:TextStyle(fontSize: 12.0))),
+                            )
+                      // ),
+                        ),
+                    )
                   ),
-                ),
             ]
           ),
           // SizedBox(height: 20.0,),

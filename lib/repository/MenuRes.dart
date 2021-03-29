@@ -9,7 +9,7 @@ class MenuRes{
 
   static Future<List>getMenu()async{
     try{
-      final res = await http.get('http://192.168.1.5/api/home');
+      final res = await http.get('https://ordercoffeevn.herokuapp.com/api/home');
 
       if(res.statusCode == 200){
         List data = jsonDecode(res.body);

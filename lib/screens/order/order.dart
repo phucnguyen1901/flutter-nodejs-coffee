@@ -1,6 +1,7 @@
 import 'package:chatapp/components/dialog.dart';
 import 'package:chatapp/components/full_text_field.dart';
 import 'package:chatapp/repository/OrderRes.dart';
+import 'package:chatapp/style.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -53,7 +54,7 @@ class _OrderState extends State<Order> {
               // margin: EdgeInsets.fromLTRB(0.0,0.0,0.0,10.0),
               padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 15.0),
               decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+                  color: lightPinkColor,
                   borderRadius: BorderRadius.circular(30.0)
               ),
               child: Center(child: Text(user,style:TextStyle(fontSize: 15.0))),
@@ -69,7 +70,17 @@ class _OrderState extends State<Order> {
             SizedBox(height:20.0),
             FullTextField(hintText: 'Note',icon: Icons.assignment, iconColor: Colors.white, maxLine: 6,
               controller: _noteController,
-            )
+            ), Container(
+              width: size.width * 0.8,
+              height: size.height*0.07,
+              // margin: EdgeInsets.fromLTRB(0.0,0.0,0.0,10.0),
+              padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 15.0),
+              decoration: BoxDecoration(
+                  color: lightPinkColor,
+                  borderRadius: BorderRadius.circular(30.0)
+              ),
+              child: Center(child: Text("\$${items["totalPrice"].toStringAsFixed(2)}",style:TextStyle(fontSize: 15.0))),
+            ),
             ],
         )
       ),

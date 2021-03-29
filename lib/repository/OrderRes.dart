@@ -9,7 +9,7 @@ class OrderRes{
 
   static Future<Map>postOrder(Map itemCart)async{
     try{
-      final res = await http.post('http://192.168.1.5/api/order',headers: headers,
+      final res = await http.post('https://ordercoffeevn.herokuapp.com/api/order',headers: headers,
           body: jsonEncode(itemCart)
       );
 

@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         primaryColor: midPinkColor,
         fontFamily: FontDefault,
       ),
-      initialRoute: '/register',
+      initialRoute: '/login',
       routes: {
         '/login' : (context) => Login(),
         '/home' : (context) => Home(),

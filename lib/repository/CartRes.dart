@@ -13,7 +13,7 @@ class CartRes{
 
   static Future<Map>getCart()async{
     try{
-      final res = await http.get('http://192.168.1.5/api/cart', headers: headers);
+      final res = await http.get('https://ordercoffeevn.herokuapp.com/api/cart', headers: headers);
       updateCookie(res);
       if(res.statusCode == 200){
         Map data = jsonDecode(res.body);
@@ -28,7 +28,7 @@ class CartRes{
 
   static Future<Map>removeCart(String idItem)async{
     try{
-      final res = await http.delete("http://192.168.1.5/api/removeCart/$idItem",headers: headers,
+      final res = await http.delete("https://ordercoffeevn.herokuapp.com/api/removeCart/$idItem",headers: headers,
       );
 
       updateCookie(res);
@@ -46,7 +46,7 @@ class CartRes{
 
   static Future<void>postCart(Map itemCart)async{
     try{
-      final res = await http.post('http://192.168.1.5/api/updateCart',headers: headers,
+      final res = await http.post('https://ordercoffeevn.herokuapp.com/api/updateCart',headers: headers,
         body: jsonEncode(itemCart)
       );
 

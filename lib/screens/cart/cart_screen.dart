@@ -76,9 +76,11 @@ class _CartState extends State<Cart> {
                 icon: Icon(Icons.attach_money_outlined),
                 label: _Cart != null
                     ? _Cart["totalPrice"] != null
-                        ?  "Cash: ${_Cart["totalPrice"].toStringAsFixed(2)} \$"
-                        : "0.0"
-                    : "0.0",
+                        ? _Cart["totalPrice"] < 0
+                            ? "0.0 \$"
+                              :"Cash: ${_Cart["totalPrice"].toStringAsFixed(2)} \$"
+                        : "0.0 \$"
+                    : "0.0 \$",
                 backgroundColor: Colors.white
             ),
           ],
@@ -93,7 +95,7 @@ class _CartState extends State<Cart> {
               break;
 
               case 1: {
-                _Cart != null ? Navigator.pushNamed(context, "/order", arguments: _Cart) :
+                _Cart != null && _Cart["totalPrice"]>0 ? Navigator.pushNamed(context, "/order", arguments: _Cart) :
                 showDialog(
                     context: context,
                     child: AuthenticationDialog(

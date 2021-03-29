@@ -7,7 +7,7 @@ class HistoryRes{
 
   static Future<List>orderHistory(String idUser)async{
     try{
-      final res = await http.get('http://192.168.1.5/api/historyOrder/$idUser', headers: headers);
+      final res = await http.get('https://ordercoffeevn.herokuapp.com/api/historyOrder/$idUser', headers: headers);
       updateCookie(res);
       if(res.statusCode == 200){
         Map data = jsonDecode(res.body);
