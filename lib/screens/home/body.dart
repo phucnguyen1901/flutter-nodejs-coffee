@@ -88,7 +88,7 @@ class _BodyState extends State<Body> {
                                         fontWeight: FontWeight.bold))),
                       ),
                       Expanded(
-                          flex: 1,
+                          flex: 2,
                           child: Padding(
                             padding: const EdgeInsets.only(right: 10.0),
                             child: Container(

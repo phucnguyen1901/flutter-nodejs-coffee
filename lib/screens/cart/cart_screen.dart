@@ -104,7 +104,7 @@ class _CartState extends State<Cart> {
                   _Cart != null &&
                           _Cart["totalPrice"] > 0 &&
                           _Cart["totalQty"] > 0
-                      ? print(_Cart)
+                      ? Navigator.pushNamed(context, "/order", arguments: _Cart)
                       : showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -146,8 +146,8 @@ class _CartState extends State<Cart> {
             onDismissed: (direction) {
               CartRes.removeCart(keyToDismissible[index]).then((value) => {
                     setState(() {
+                      print("this is value ${value['totalPrice']}");
                       _Cart["totalPrice"] = value["totalPrice"];
-                      print(value['totalQty']);
                     })
                   });
             },
