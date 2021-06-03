@@ -77,7 +77,7 @@ class _BodyState extends State<Body> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 20.0),
                             child: Text("Hi $user!",
-                                style: user.length < 30
+                                style: user.toString().length < 30
                                     ? TextStyle(
                                         fontSize: 20.0,
                                         fontFamily: "Exo",

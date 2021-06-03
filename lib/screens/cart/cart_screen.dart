@@ -101,8 +101,10 @@ class _CartState extends State<Cart> {
 
               case 1:
                 {
-                  _Cart != null && _Cart["totalPrice"] > 0
-                      ? Navigator.pushNamed(context, "/order", arguments: _Cart)
+                  _Cart != null &&
+                          _Cart["totalPrice"] > 0 &&
+                          _Cart["totalQty"] > 0
+                      ? print(_Cart)
                       : showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -133,7 +135,6 @@ class _CartState extends State<Cart> {
   ListView ListItemCart(Map listItemCart) {
     List listValue = [];
     List keyToDismissible = [];
-    // print("day la list cart : ${listItemCart["items"]}");
 
     listItemCart["items"].forEach((k, v) => listValue.add(v));
     listItemCart["items"].forEach((k, v) => keyToDismissible.add(k));
@@ -146,6 +147,7 @@ class _CartState extends State<Cart> {
               CartRes.removeCart(keyToDismissible[index]).then((value) => {
                     setState(() {
                       _Cart["totalPrice"] = value["totalPrice"];
+                      print(value['totalQty']);
                     })
                   });
             },
